@@ -221,6 +221,128 @@ header .mark b{color:var(--orange);}
   padding-top:1rem;margin-top:1.9rem;line-height:1.7;
 }
 
+/* ---------- sermon / message section ---------- */
+.sermon-chip .n{font-size:.95rem;}
+.sermon{
+  margin:2.5rem 1rem 1.5rem;
+  scroll-margin-top:calc(var(--header-h) + var(--nav-h) + env(safe-area-inset-top) + 10px);
+}
+.sermon-head{text-align:center;margin-bottom:1.5rem;}
+.sermon-head .eyebrow{
+  font-family:'Oswald',sans-serif;font-weight:600;
+  text-transform:uppercase;letter-spacing:4px;
+  font-size:.74rem;color:#b48cff;margin-bottom:.5rem;
+}
+.sermon-head h2{
+  font-family:'Oswald',sans-serif;font-weight:700;
+  text-transform:uppercase;line-height:.98;letter-spacing:.5px;
+  font-size:clamp(2rem,8vw,2.8rem);color:var(--text);
+}
+.sermon-head .by{color:var(--text-dim);margin-top:.5rem;font-size:1rem;}
+
+/* collapsible point cards */
+.point{
+  background:linear-gradient(160deg,var(--panel) 0%,var(--bg2) 100%);
+  border:1px solid var(--panel-edge);border-radius:18px;
+  margin-bottom:.85rem;overflow:hidden;
+  border-left:4px solid #7c5cff;
+}
+.point > button{
+  width:100%;text-align:left;background:none;border:none;cursor:pointer;
+  display:flex;align-items:center;gap:.9rem;
+  padding:1.15rem 1.2rem;color:var(--text);
+}
+.point .pnum{
+  font-family:'Oswald',sans-serif;font-weight:700;font-size:1.5rem;
+  color:transparent;-webkit-text-stroke:1.5px #7c5cff;flex:0 0 auto;
+  min-width:1.6rem;line-height:1;
+}
+.point .ptitle{
+  font-family:'Oswald',sans-serif;font-weight:600;
+  text-transform:uppercase;letter-spacing:.5px;
+  font-size:1.05rem;line-height:1.2;flex:1;
+}
+.point .chev{
+  flex:0 0 auto;color:#b48cff;font-size:1.2rem;
+  transition:transform .3s;line-height:1;
+}
+.point.open .chev{transform:rotate(180deg);}
+.point .pbody{
+  max-height:0;overflow:hidden;
+  transition:max-height .4s ease;
+}
+.point.open .pbody{max-height:1200px;}
+.point .pbody-inner{
+  padding:0 1.2rem 1.2rem;
+  font-size:1.12rem;line-height:1.65;color:var(--text-dim);
+}
+
+/* scripture / question / takeaway groups */
+.sermon-group{
+  background:linear-gradient(160deg,var(--panel) 0%,var(--bg2) 100%);
+  border:1px solid var(--panel-edge);border-radius:18px;
+  margin-bottom:.85rem;overflow:hidden;
+}
+.sermon-group > button{
+  width:100%;text-align:left;background:none;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:.9rem;
+  padding:1.15rem 1.2rem;color:var(--text);
+}
+.sermon-group .gtitle{
+  font-family:'Oswald',sans-serif;font-weight:700;
+  text-transform:uppercase;letter-spacing:1.5px;
+  font-size:1.05rem;
+}
+.sermon-group .chev{flex:0 0 auto;color:#b48cff;font-size:1.2rem;transition:transform .3s;}
+.sermon-group.open .chev{transform:rotate(180deg);}
+.sermon-group .gbody{max-height:0;overflow:hidden;transition:max-height .5s ease;}
+.sermon-group.open .gbody{max-height:3000px;}
+.sermon-group .gbody-inner{padding:0 1.2rem 1.2rem;}
+
+.verse{
+  border-left:3px solid #56a8e0;padding:.6rem 0 .6rem 1rem;margin:1rem 0;
+}
+.verse .ref{
+  font-family:'Oswald',sans-serif;font-weight:600;letter-spacing:.5px;
+  color:#9fd0f5;font-size:1rem;margin-bottom:.25rem;
+}
+.verse .text{color:var(--text);font-style:italic;font-size:1.08rem;line-height:1.55;}
+.verse .ver{color:var(--text-dim);font-size:.82rem;margin-top:.2rem;}
+
+.qlist{counter-reset:q;list-style:none;}
+.qlist li{
+  position:relative;padding:.7rem 0 .7rem 2.4rem;
+  color:var(--text);font-size:1.08rem;line-height:1.5;
+  border-bottom:1px solid var(--panel-edge);
+}
+.qlist li:last-child{border-bottom:none;}
+.qlist li::before{
+  counter-increment:q;content:counter(q);
+  position:absolute;left:0;top:.65rem;
+  font-family:'Oswald',sans-serif;font-weight:700;
+  color:#b48cff;font-size:1.1rem;
+}
+.takeaways{counter-reset:t;list-style:none;}
+.takeaways li{
+  position:relative;padding:.7rem 0 .7rem 2.4rem;
+  color:var(--text-dim);font-size:1.08rem;line-height:1.55;
+}
+.takeaways li::before{
+  counter-increment:t;content:counter(t);
+  position:absolute;left:0;top:.65rem;
+  font-family:'Oswald',sans-serif;font-weight:700;
+  color:#7c5cff;font-size:1.1rem;
+}
+.takeaways li b,.point .pbody-inner b{color:var(--text);}
+.notes{list-style:none;}
+.notes li{
+  position:relative;padding:.55rem 0 .55rem 1.3rem;
+  color:var(--text-dim);font-size:1.08rem;line-height:1.55;
+}
+.notes li::before{
+  content:"\2022";position:absolute;left:0;top:.5rem;color:#b48cff;font-size:1.2rem;
+}
+
 /* closing moment */
 .closing{
   text-align:center;padding:4rem 1.5rem 3rem;
@@ -318,6 +440,7 @@ footer a{color:var(--orange);text-decoration:none;font-weight:600;}
     <a href="#song3" class="song-btn"><span class="n">03</span>Amazing Grace</a>
     <a href="#song4" class="song-btn"><span class="n">04</span>Goodness of God</a>
     <a href="#song5" class="song-btn"><span class="n">05</span>10,000 Reasons</a>
+    <a href="#sermon" class="song-btn sermon-chip"><span class="n">&#10013;</span>The Message</a>
   </div>
 </nav>
 
@@ -556,6 +679,143 @@ footer a{color:var(--orange);text-decoration:none;font-weight:600;}
   </div>
 </section>
 
+<section id="sermon" class="sermon">
+  <div class="sermon-head">
+    <div class="eyebrow">The Message</div>
+    <h2>Go Find Your One</h2>
+    <div class="by">Pastor Bobby Alan Westfall</div>
+  </div>
+
+  <div class="point">
+    <button aria-expanded="false">
+      <span class="pnum">1</span>
+      <span class="ptitle">God Is the One Doing the Searching</span>
+      <span class="chev">&#9662;</span>
+    </button>
+    <div class="pbody"><div class="pbody-inner">
+      Most religions tell humanity to search for God. The Gospel tells us God searched for humanity first. From Genesis to the cross, God always moves first. You may think you wandered into this morning &mdash; but what if God has been pursuing you all along?
+    </div></div>
+  </div>
+
+  <div class="point">
+    <button aria-expanded="false">
+      <span class="pnum">2</span>
+      <span class="ptitle">You Are Never Just a Number to God</span>
+      <span class="chev">&#9662;</span>
+    </button>
+    <div class="pbody"><div class="pbody-inner">
+      The Shepherd left ninety-nine to go after one. Heaven doesn't count crowds &mdash; it counts names. You have never been 'another broken person' to God. He knows your name, your story, and every tear you've cried that no one else has seen.
+    </div></div>
+  </div>
+
+  <div class="point">
+    <button aria-expanded="false">
+      <span class="pnum">3</span>
+      <span class="ptitle">Grace Carries You &mdash; You Don't Carry Yourself</span>
+      <span class="chev">&#9662;</span>
+    </button>
+    <div class="pbody"><div class="pbody-inner">
+      The sheep contributed nothing to its own rescue. It didn't earn the shepherd's help or promise to do better. It simply allowed itself to be carried. Christianity isn't about climbing your way to God &mdash; it's about a God who came down to carry you. Jesus carried a cross so He could carry us.
+    </div></div>
+  </div>
+
+  <div class="point">
+    <button aria-expanded="false">
+      <span class="pnum">4</span>
+      <span class="ptitle">Your Value Was Never Determined by Where You Fell</span>
+      <span class="chev">&#9662;</span>
+    </button>
+    <div class="pbody"><div class="pbody-inner">
+      The coin never stopped being silver because it was covered in dust. Sin damages us, distorts us, and separates us &mdash; but it never changes the fact that you were created by God and loved by God. Before anyone ever labeled you a failure, God called you image-bearer. He isn't looking because He forgot where you are. He's looking because He refuses to leave you where you are.
+    </div></div>
+  </div>
+
+  <div class="point">
+    <button aria-expanded="false">
+      <span class="pnum">5</span>
+      <span class="ptitle">The Father Was Already Running</span>
+      <span class="chev">&#9662;</span>
+    </button>
+    <div class="pbody"><div class="pbody-inner">
+      The father in the story saw his son from a long way off &mdash; because he had never stopped watching. He ran, threw his arms around him, and kissed him before his son could even finish his rehearsed speech. That is the heart of God toward you. While you were still running, the Father was already running toward you.
+    </div></div>
+  </div>
+
+  <div class="point">
+    <button aria-expanded="false">
+      <span class="pnum">6</span>
+      <span class="ptitle">The Call: Go Find Your One</span>
+      <span class="chev">&#9662;</span>
+    </button>
+    <div class="pbody"><div class="pbody-inner">
+      If you follow Jesus, you are called to go after the lost &mdash; just like the Shepherd, just like the woman with the lamp. Who is the one person in your life who is still lost? That name in your mind right now is not a coincidence. You are not called to save them &mdash; that is God's job. You are called to go.
+    </div></div>
+  </div>
+
+  <div class="sermon-group">
+    <button aria-expanded="false">
+      <span class="gtitle">Scripture References</span>
+      <span class="chev">&#9662;</span>
+    </button>
+    <div class="gbody"><div class="gbody-inner">
+      <div class="verse"><div class="ref">Luke 15:1&ndash;2</div><div class="text">"Now the tax collectors and sinners were all gathering around to hear Jesus. But the Pharisees and the teachers of the law muttered, 'This man welcomes sinners and eats with them.'"</div><div class="ver">NIV</div></div>
+      <div class="verse"><div class="ref">Luke 19:10</div><div class="text">"For the Son of Man came to seek and to save the lost."</div><div class="ver">NIV</div></div>
+      <div class="verse"><div class="ref">Luke 15:5</div><div class="text">"And when he finds it, he joyfully puts it on his shoulders and goes home."</div><div class="ver">NIV</div></div>
+      <div class="verse"><div class="ref">Luke 15:20</div><div class="text">"But while he was still a long way off, his father saw him and was filled with compassion for him; he ran to his son, threw his arms around him and kissed him."</div><div class="ver">NIV</div></div>
+      <div class="verse"><div class="ref">Romans 5:8</div><div class="text">"But God demonstrates his own love for us in this: While we were still sinners, Christ died for us."</div><div class="ver">NIV</div></div>
+      <div class="verse"><div class="ref">Matthew 11:28</div><div class="text">"Come to me, all you who are weary and burdened, and I will give you rest."</div><div class="ver">NIV</div></div>
+      <div class="verse"><div class="ref">Isaiah 53:6</div><div class="text">"We all, like sheep, have gone astray, each of us has turned to our own way; and the LORD has laid on him the iniquity of us all."</div><div class="ver">NIV</div></div>
+    </div></div>
+  </div>
+
+  <div class="sermon-group">
+    <button aria-expanded="false">
+      <span class="gtitle">Discussion Questions</span>
+      <span class="chev">&#9662;</span>
+    </button>
+    <div class="gbody"><div class="gbody-inner">
+      <ol class="qlist">
+        <li>Have you ever thought of God as distant, disappointed, or hard to reach? How does Luke 15 change or challenge that picture?</li>
+        <li>The sheep wandered. The coin was dropped. Which story feels more like your own &mdash; and why?</li>
+        <li>What does it mean to you personally that the father was already running before his son arrived home?</li>
+        <li>Who is your 'one'? Who is the person in your life the Holy Spirit keeps bringing to mind?</li>
+        <li>What is one step you could take this week to go after your one?</li>
+      </ol>
+    </div></div>
+  </div>
+
+  <div class="sermon-group">
+    <button aria-expanded="false">
+      <span class="gtitle">Key Takeaways</span>
+      <span class="chev">&#9662;</span>
+    </button>
+    <div class="gbody"><div class="gbody-inner">
+      <ol class="takeaways">
+        <li><b>God is the pursuer</b> &mdash; you are here because He never stopped looking for you. (Luke 19:10)</li>
+        <li><b>You are never just a number</b> &mdash; heaven counts names, not crowds. (Luke 15:7)</li>
+        <li><b>Grace carries you home</b> &mdash; the sheep contributed nothing to its own rescue. (Ephesians 2:4&ndash;5)</li>
+        <li><b>Your value is unshaken</b> &mdash; you were made in the image of God and nothing can erase that. (Genesis 1:27)</li>
+        <li><b>The Father is already running</b> &mdash; while you were still a long way off, He saw you. (Romans 5:8)</li>
+      </ol>
+    </div></div>
+  </div>
+
+  <div class="sermon-group">
+    <button aria-expanded="false">
+      <span class="gtitle">Additional Notes</span>
+      <span class="chev">&#9662;</span>
+    </button>
+    <div class="gbody"><div class="gbody-inner">
+      <ul class="notes">
+        <li>Three parables. One message. One heartbeat: God loves lost people and goes after them.</li>
+        <li>Luke 15 is often called the greatest chapter ever written about the love of God.</li>
+        <li>The Pharisees muttered because Jesus welcomed sinners. Jesus responded not with an argument &mdash; but with a story.</li>
+        <li>Holiness doesn't avoid darkness &mdash; it invades it. Jesus wasn't contaminated by sinners; sinners were transformed by Jesus.</li>
+      </ul>
+    </div></div>
+  </div>
+</section>
+
 <div class="closing" id="closing">
   <div class="cross">&#10013;</div>
   <h3>Go in His Goodness</h3>
@@ -685,7 +945,14 @@ onScroll();
 
 fab.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 
-/* ---------- keep screen awake (Wake Lock) ---------- */
+/* ---------- sermon collapsible cards ---------- */
+document.querySelectorAll('.point > button, .sermon-group > button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const card=btn.parentElement;
+    const open=card.classList.toggle('open');
+    btn.setAttribute('aria-expanded',open?'true':'false');
+  });
+});
 (function(){
   let lock=null;
   const toast=document.getElementById('toast');
