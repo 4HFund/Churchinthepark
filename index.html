@@ -4,7 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0a1424">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Church in the Park">
 <title>Church in the Park — Worship</title>
+
+<!-- PWA manifest (inlined so the single file works anywhere) -->
+<link rel="manifest" href='data:application/manifest+json,{"name":"Church in the Park","short_name":"Worship","display":"standalone","background_color":"%230a1424","theme_color":"%230a1424","start_url":"."}'>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
 
@@ -20,6 +27,10 @@
   --text-dim:#9fb2cd;
   --header-h:64px;
   --nav-h:58px;
+  --lyric:1.45rem;   /* controlled by A-/A+ */
+  /* per-song mood accent, overridden per section */
+  --accent:var(--orange);
+  --accent-soft:var(--orange-soft);
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -45,8 +56,8 @@ body{
 header{
   position:sticky;top:0;z-index:100;
   height:var(--header-h);
-  display:flex;align-items:center;justify-content:center;
-  padding:0 1rem;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 1rem;gap:.75rem;
   background:rgba(10,20,36,.82);
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border-bottom:1px solid var(--panel-edge);
@@ -54,9 +65,23 @@ header{
 header .mark{
   font-family:'Oswald',sans-serif;font-weight:700;
   text-transform:uppercase;letter-spacing:3px;
-  font-size:1rem;color:var(--text);
+  font-size:1rem;color:var(--text);white-space:nowrap;
 }
 header .mark b{color:var(--orange);}
+
+/* font-size control */
+.fontctl{display:flex;align-items:center;gap:.4rem;}
+.fontctl button{
+  width:38px;height:38px;border-radius:10px;
+  background:var(--panel);border:1px solid var(--panel-edge);
+  color:var(--text);font-family:'Oswald',sans-serif;font-weight:700;
+  font-size:1rem;cursor:pointer;display:grid;place-items:center;
+  transition:all .15s;line-height:1;
+}
+.fontctl button:active{transform:scale(.92);}
+.fontctl button:disabled{opacity:.35;cursor:default;}
+@media(hover:hover){.fontctl button:not(:disabled):hover{border-color:var(--orange);color:var(--orange);}}
+.fontctl .big{font-size:1.3rem;}
 
 /* HERO */
 .hero{
@@ -80,8 +105,7 @@ header .mark b{color:var(--orange);}
 .embers{position:absolute;inset:0;z-index:1;pointer-events:none;}
 .ember{
   position:absolute;bottom:-12px;width:5px;height:5px;border-radius:50%;
-  background:var(--orange-soft);opacity:0;
-  filter:blur(.3px);
+  background:var(--orange-soft);opacity:0;filter:blur(.3px);
   box-shadow:0 0 8px 2px rgba(255,122,26,.6);
   animation:rise linear infinite;
 }
@@ -90,7 +114,6 @@ header .mark b{color:var(--orange);}
   12%{opacity:.9;}
   100%{transform:translateY(-60vh) translateX(var(--drift,20px));opacity:0;}
 }
-
 .hero-content{position:relative;z-index:2;}
 .eyebrow{
   font-family:'Oswald',sans-serif;font-weight:600;
@@ -104,7 +127,6 @@ header .mark b{color:var(--orange);}
   text-shadow:0 4px 30px rgba(0,0,0,.5);
 }
 .hero h1 .glow{color:var(--orange);text-shadow:0 0 28px rgba(255,122,26,.55);}
-.hero .tag{margin-top:.8rem;color:var(--text-dim);font-size:1rem;font-weight:500;}
 
 /* song nav glass chips */
 .nav{
@@ -121,7 +143,7 @@ header .mark b{color:var(--orange);}
 }
 .song-links::-webkit-scrollbar{display:none;}
 .song-btn{
-  flex:0 0 auto;scroll-snap-align:start;white-space:nowrap;
+  flex:0 0 auto;scroll-snap-align:center;white-space:nowrap;
   font-family:'Oswald',sans-serif;font-weight:600;letter-spacing:.5px;
   text-transform:uppercase;font-size:.82rem;
   padding:.5rem .95rem;border-radius:50px;
@@ -132,28 +154,12 @@ header .mark b{color:var(--orange);}
 .song-btn .n{color:var(--orange);margin-right:.35rem;}
 .song-btn:active{transform:scale(.96);}
 .song-btn.active{
-  background:linear-gradient(135deg,var(--orange),#ff9a47);
+  background:linear-gradient(135deg,var(--accent),var(--accent-soft));
   color:#1a1206;border-color:transparent;
-  box-shadow:0 0 18px rgba(255,122,26,.5);
+  box-shadow:0 0 18px rgba(255,122,26,.45);
 }
 .song-btn.active .n{color:#1a1206;}
 @media(hover:hover){.song-btn:hover{color:var(--text);border-color:var(--blue-glow);}}
-
-/* intro cards */
-.welcome,.note{margin:1.25rem 1rem;border-radius:16px;}
-.welcome{
-  background:linear-gradient(135deg,var(--panel),var(--bg2));
-  border:1px solid var(--panel-edge);
-  padding:1.4rem;text-align:center;font-size:1.05rem;color:var(--text-dim);
-}
-.welcome strong{color:var(--text);display:block;font-size:1.15rem;margin-bottom:.3rem;
-  font-family:'Oswald',sans-serif;letter-spacing:1px;text-transform:uppercase;}
-.note{
-  background:rgba(255,122,26,.08);
-  border:1px solid rgba(255,122,26,.25);
-  border-left:4px solid var(--orange);
-  padding:.9rem 1.1rem;font-size:.98rem;color:var(--orange-soft);font-weight:500;
-}
 
 /* song sections */
 .song-section{
@@ -166,17 +172,22 @@ header .mark b{color:var(--orange);}
   transition:opacity .7s ease,transform .7s ease;
 }
 .song-section.in{opacity:1;transform:none;}
+/* current song gets an accent edge */
+.song-section.current{
+  border-color:color-mix(in srgb, var(--accent) 45%, var(--panel-edge));
+  box-shadow:0 18px 55px rgba(0,0,0,.4), 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent);
+}
 
 .song-num{
   font-family:'Oswald',sans-serif;font-weight:700;
   font-size:3.5rem;line-height:1;color:transparent;
-  -webkit-text-stroke:1.5px var(--blue-glow);
-  opacity:.45;margin-bottom:-.5rem;
+  -webkit-text-stroke:1.5px var(--accent);
+  opacity:.4;margin-bottom:-.5rem;
 }
 .song-label{
   font-family:'Oswald',sans-serif;font-weight:600;
   text-transform:uppercase;letter-spacing:3px;
-  font-size:.74rem;color:var(--orange);margin:.4rem 0 .15rem;
+  font-size:.74rem;color:var(--accent);margin:.4rem 0 .15rem;
 }
 .song-title{
   font-family:'Oswald',sans-serif;font-weight:700;
@@ -186,18 +197,21 @@ header .mark b{color:var(--orange);}
   border-bottom:2px solid var(--panel-edge);
 }
 
-.lyrics{font-size:1.32rem;line-height:1.62;}
-.lyrics p{
-  margin-bottom:1.4rem;color:var(--text);
-  transition:color .4s,opacity .4s;
-}
+.lyrics{font-size:var(--lyric);line-height:1.65;}
+.lyrics p{margin-bottom:1.4rem;color:var(--text);transition:color .4s,opacity .4s;}
+
+/* auto-dim: when a song is the current one, its non-active blocks dim */
+.song-section.current .block{opacity:.4;transition:opacity .45s;}
+.song-section.current .block.spotlight{opacity:1;}
+/* when not the current song, everything is fully readable (no dimming) */
+.block{opacity:1;}
+
 .section-heading{
   font-family:'Oswald',sans-serif;font-weight:600;
   text-transform:uppercase;letter-spacing:2px;
-  font-size:.92rem;color:var(--orange-soft);
-  margin:1.7rem 0 .7rem;
+  font-size:.92rem;color:var(--accent-soft);
+  margin-bottom:.7rem;
 }
-.section-heading:first-child{margin-top:0;}
 
 .copyright{
   font-size:.78rem;color:var(--text-dim);opacity:.7;
@@ -205,10 +219,27 @@ header .mark b{color:var(--orange);}
   padding-top:1rem;margin-top:1.9rem;line-height:1.7;
 }
 
+/* closing moment */
+.closing{
+  text-align:center;padding:4rem 1.5rem 3rem;
+  opacity:0;transform:translateY(24px);
+  transition:opacity 1s ease,transform 1s ease;
+}
+.closing.in{opacity:1;transform:none;}
+.closing .cross{
+  font-size:2rem;color:var(--orange);margin-bottom:1rem;
+  text-shadow:0 0 24px rgba(255,122,26,.5);
+}
+.closing h3{
+  font-family:'Oswald',sans-serif;font-weight:700;
+  text-transform:uppercase;letter-spacing:2px;
+  font-size:1.6rem;color:var(--text);line-height:1.2;
+}
+.closing p{color:var(--text-dim);margin-top:.6rem;font-size:1.05rem;}
+
 /* footer */
 footer{
-  text-align:center;padding:2.5rem 1.4rem calc(2.5rem + env(safe-area-inset-bottom));
-  margin-top:1.5rem;
+  text-align:center;padding:2rem 1.4rem calc(2.5rem + env(safe-area-inset-bottom));
   background:linear-gradient(180deg,var(--bg) 0%,#060e1a 100%);
   border-top:1px solid var(--panel-edge);
 }
@@ -216,7 +247,6 @@ footer .fname{font-family:'Oswald',sans-serif;font-weight:700;
   text-transform:uppercase;letter-spacing:2px;font-size:1.3rem;color:var(--text);}
 footer .fsub{color:var(--orange-soft);margin-top:.2rem;letter-spacing:1px;}
 footer a{color:var(--orange);text-decoration:none;font-weight:600;}
-.footer-event{margin-top:1.6rem;font-size:.9rem;color:var(--text-dim);line-height:1.8;}
 
 /* floating back-to-top */
 .fab{
@@ -232,17 +262,30 @@ footer a{color:var(--orange);text-decoration:none;font-weight:600;}
 .fab.show{opacity:1;pointer-events:auto;transform:none;}
 .fab:active{transform:scale(.9);}
 
+/* tiny "screen stays on" toast */
+.toast{
+  position:fixed;left:50%;bottom:calc(1.4rem + env(safe-area-inset-bottom));
+  transform:translateX(-50%) translateY(20px);
+  background:var(--panel);border:1px solid var(--panel-edge);
+  color:var(--text);font-size:.85rem;font-weight:500;
+  padding:.6rem 1rem;border-radius:50px;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+  opacity:0;pointer-events:none;transition:opacity .4s,transform .4s;
+  z-index:130;white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
 @media(min-width:680px){
   .hero h1{font-size:6.5rem;}
-  .song-section,.welcome,.note{max-width:720px;margin-left:auto;margin-right:auto;}
-  .lyrics{font-size:1.45rem;}
+  .song-section{max-width:720px;margin-left:auto;margin-right:auto;}
 }
 
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;}
   html{scroll-behavior:auto;}
-  .song-section{opacity:1;transform:none;}
+  .song-section,.closing{opacity:1;transform:none;}
   .hero::before{transform:none;}
+  .song-section.current .block{opacity:1;}
 }
 </style>
 </head>
@@ -251,6 +294,10 @@ footer a{color:var(--orange);text-decoration:none;font-weight:600;}
 
 <header>
   <span class="mark">The <b>Foundery</b> Church</span>
+  <div class="fontctl" role="group" aria-label="Lyric text size">
+    <button id="fontDown" aria-label="Smaller text">A&minus;</button>
+    <button id="fontUp" class="big" aria-label="Larger text">A+</button>
+  </div>
 </header>
 
 <section class="hero">
@@ -258,7 +305,6 @@ footer a{color:var(--orange);text-decoration:none;font-weight:600;}
   <div class="hero-content">
     <div class="eyebrow">Worship &bull; Live</div>
     <h1>Church<br>In The <span class="glow">Park</span></h1>
-    <p class="tag">Follow along &mdash; tap a song below or scroll as we sing.</p>
   </div>
 </section>
 
@@ -272,170 +318,164 @@ footer a{color:var(--orange);text-decoration:none;font-weight:600;}
   </div>
 </nav>
 
-<div class="welcome">
-  <strong>Welcome</strong>
-  We&rsquo;re so glad you&rsquo;re here worshiping with us this morning.
-</div>
-<div class="note">Keep this page open and scroll as we sing together.</div>
-
-<!-- Song 1 -->
-<section id="song1" class="song-section">
+<!-- Song 1 — OPENER (orange) -->
+<section id="song1" class="song-section" style="--accent:#ff7a1a;--accent-soft:#ffb066;">
   <div class="song-num">01</div>
   <div class="song-label">Opener</div>
   <h2 class="song-title">To God Be the Glory</h2>
   <div class="lyrics">
-    <p>To God be the glory, great things He hath done;<br>
+    <div class="block"><p>To God be the glory, great things He hath done;<br>
     So loved He the world that He gave us His Son,<br>
     Who yielded His life an atonement for sin,<br>
-    And opened the life gate that all may go in.</p>
-    <p class="section-heading">Praise the Lord</p>
+    And opened the life gate that all may go in.</p></div>
+    <div class="block"><p class="section-heading">Praise the Lord</p>
     <p>Praise the Lord, praise the Lord,<br>
     Let the earth hear His voice!<br>
     Praise the Lord, praise the Lord,<br>
     Let the people rejoice!<br>
     O come to the Father, through Jesus the Son,<br>
-    And give Him the glory, great things He hath done!</p>
-    <p class="section-heading">Verse 2</p>
+    And give Him the glory, great things He hath done!</p></div>
+    <div class="block"><p class="section-heading">Verse 2</p>
     <p>O perfect redemption, the purchase of blood,<br>
     To every believer the promise of God;<br>
     The vilest offender who truly believes,<br>
-    That moment from Jesus a pardon receives.</p>
-    <p class="section-heading">Praise the Lord</p>
+    That moment from Jesus a pardon receives.</p></div>
+    <div class="block"><p class="section-heading">Praise the Lord</p>
     <p>Praise the Lord, praise the Lord,<br>
     Let the earth hear His voice!<br>
     Praise the Lord, praise the Lord,<br>
     Let the people rejoice!<br>
     O come to the Father, through Jesus the Son,<br>
-    And give Him the glory, great things He hath done!</p>
-    <p class="section-heading">Verse 3</p>
+    And give Him the glory, great things He hath done!</p></div>
+    <div class="block"><p class="section-heading">Verse 3</p>
     <p>Great things He hath taught us, great things He hath done,<br>
     And great our rejoicing through Jesus the Son;<br>
     But purer and higher and greater will be<br>
-    Our wonder, our transport, when Jesus we see.</p>
-    <p class="section-heading">Praise the Lord</p>
+    Our wonder, our transport, when Jesus we see.</p></div>
+    <div class="block"><p class="section-heading">Praise the Lord</p>
     <p>Praise the Lord, praise the Lord,<br>
     Let the earth hear His voice!<br>
     Praise the Lord, praise the Lord,<br>
     Let the people rejoice!<br>
     O come to the Father, through Jesus the Son,<br>
-    And give Him the glory, great things He hath done!</p>
+    And give Him the glory, great things He hath done!</p></div>
   </div>
   <div class="copyright">
     CCLI Song # 23426 &bull; Fanny Jane Crosby | William Howard Doane<br>
-    &copy; Public Domain &bull; Used by permission. CCLI License # [Your License Here]
+    &copy; Public Domain &bull; Used by permission. CCLI License # 1303913
   </div>
 </section>
 
-<!-- Song 2 -->
-<section id="song2" class="song-section">
+<!-- Song 2 — WORSHIP (warm gold) -->
+<section id="song2" class="song-section" style="--accent:#f0a92c;--accent-soft:#ffd27a;">
   <div class="song-num">02</div>
   <div class="song-label">Worship Set</div>
   <h2 class="song-title">How Great Is Our God</h2>
   <div class="lyrics">
-    <p class="section-heading">Verse 1</p>
+    <div class="block"><p class="section-heading">Verse 1</p>
     <p>The splendor of the King, clothed in majesty<br>
     Let all the earth rejoice, all the earth rejoice<br>
     He wraps Himself in light, and darkness tries to hide<br>
-    And trembles at His voice, trembles at His voice</p>
-    <p class="section-heading">Chorus</p>
+    And trembles at His voice, trembles at His voice</p></div>
+    <div class="block"><p class="section-heading">Chorus</p>
     <p>How great is our God, sing with me<br>
     How great is our God, and all will see<br>
-    How great, how great is our God</p>
-    <p class="section-heading">Verse 2</p>
+    How great, how great is our God</p></div>
+    <div class="block"><p class="section-heading">Verse 2</p>
     <p>Age to age He stands, and time is in His hands<br>
     Beginning and the end, beginning and the end<br>
     The Godhead three in one, Father Spirit Son<br>
-    The Lion and the Lamb, the Lion and the Lamb</p>
-    <p class="section-heading">Chorus</p>
+    The Lion and the Lamb, the Lion and the Lamb</p></div>
+    <div class="block"><p class="section-heading">Chorus</p>
     <p>How great is our God, sing with me<br>
     How great is our God, and all will see<br>
-    How great, how great is our God</p>
-    <p class="section-heading">Bridge</p>
+    How great, how great is our God</p></div>
+    <div class="block"><p class="section-heading">Bridge</p>
     <p>Name above all names<br>
     Worthy of all praise<br>
     My heart will sing<br>
-    How great is our God</p>
-    <p class="section-heading">Chorus</p>
+    How great is our God</p></div>
+    <div class="block"><p class="section-heading">Chorus</p>
     <p>How great is our God, sing with me<br>
     How great is our God, and all will see<br>
-    How great, how great is our God</p>
+    How great, how great is our God</p></div>
   </div>
   <div class="copyright">
     CCLI Song # 4348399 &bull; Chris Tomlin | Ed Cash | Jesse Reeves<br>
-    &copy; 2004 sixsteps Music (Admin. by Integrity Music) &bull; Used by permission. CCLI License # [Your License Here]
+    &copy; 2004 sixsteps Music (Admin. by Integrity Music) &bull; Used by permission. CCLI License # 1303913
   </div>
 </section>
 
-<!-- Song 3 -->
-<section id="song3" class="song-section">
+<!-- Song 3 — WORSHIP (sky blue) -->
+<section id="song3" class="song-section" style="--accent:#56a8e0;--accent-soft:#9fd0f5;">
   <div class="song-num">03</div>
   <div class="song-label">Worship Set</div>
   <h2 class="song-title">Amazing Grace / My Chains Are Gone</h2>
   <div class="lyrics">
-    <p class="section-heading">Verse 1</p>
+    <div class="block"><p class="section-heading">Verse 1</p>
     <p>Amazing grace, how sweet the sound<br>
     That saved a wretch like me<br>
     I once was lost, but now I'm found<br>
-    Was blind, but now I see</p>
-    <p class="section-heading">Verse 2</p>
+    Was blind, but now I see</p></div>
+    <div class="block"><p class="section-heading">Verse 2</p>
     <p>'Twas grace that taught my heart to fear<br>
     And grace my fears relieved<br>
     How precious did that grace appear<br>
-    The hour I first believed</p>
-    <p class="section-heading">Chorus</p>
+    The hour I first believed</p></div>
+    <div class="block"><p class="section-heading">Chorus</p>
     <p>My chains are gone, I've been set free<br>
     My God, my Savior has ransomed me<br>
     And like a flood His mercy reigns<br>
-    Unending love, amazing grace</p>
-    <p class="section-heading">Verse 3</p>
+    Unending love, amazing grace</p></div>
+    <div class="block"><p class="section-heading">Verse 3</p>
     <p>The Lord has promised good to me<br>
     His word my hope secures<br>
     He will my shield and portion be<br>
-    As long as life endures</p>
-    <p class="section-heading">Verse 4</p>
+    As long as life endures</p></div>
+    <div class="block"><p class="section-heading">Verse 4</p>
     <p>The earth shall soon dissolve like snow<br>
     The sun forbear to shine<br>
     But God who called me here below<br>
     Will be forever mine<br>
-    Will be forever mine</p>
+    Will be forever mine</p></div>
   </div>
   <div class="copyright">
     CCLI Song # 4768151 &bull; Chris Tomlin | John Newton | Louie Giglio<br>
-    &copy; 2006 sixsteps Music (Admin. by Integrity Music) &bull; Used by permission. CCLI License # [Your License Here]
+    &copy; 2006 sixsteps Music (Admin. by Integrity Music) &bull; Used by permission. CCLI License # 1303913
   </div>
 </section>
 
-<!-- Song 4 -->
-<section id="song4" class="song-section">
+<!-- Song 4 — WORSHIP (warm gold) -->
+<section id="song4" class="song-section" style="--accent:#f0a92c;--accent-soft:#ffd27a;">
   <div class="song-num">04</div>
   <div class="song-label">Worship Set</div>
   <h2 class="song-title">The Goodness of God</h2>
   <div class="lyrics">
-    <p class="section-heading">Verse 1</p>
+    <div class="block"><p class="section-heading">Verse 1</p>
     <p>I love You Lord<br>
     Oh Your mercy never fails me<br>
     All my days I've been held in Your hands<br>
     From the moment that I wake up<br>
     Until I lay my head<br>
-    I will sing of the goodness of God</p>
-    <p class="section-heading">Chorus</p>
+    I will sing of the goodness of God</p></div>
+    <div class="block"><p class="section-heading">Chorus</p>
     <p>All my life You have been faithful<br>
     All my life You have been so, so good<br>
     With every breath that I am able<br>
-    I will sing of the goodness of God</p>
-    <p class="section-heading">Verse 2</p>
+    I will sing of the goodness of God</p></div>
+    <div class="block"><p class="section-heading">Verse 2</p>
     <p>I love Your voice<br>
     You have led me through the fire<br>
     In darkest nights You are close like no other<br>
     I've known You as a Father<br>
     I've known You as a Friend<br>
-    I have lived in the goodness of God</p>
-    <p class="section-heading">Chorus</p>
+    I have lived in the goodness of God</p></div>
+    <div class="block"><p class="section-heading">Chorus</p>
     <p>All my life You have been faithful<br>
     All my life You have been so, so good<br>
     With every breath that I am able<br>
-    I will sing of the goodness of God</p>
-    <p class="section-heading">Bridge</p>
+    I will sing of the goodness of God</p></div>
+    <div class="block"><p class="section-heading">Bridge</p>
     <p>Your goodness is running after<br>
     It's running after me<br>
     Your goodness is running after<br>
@@ -444,95 +484,96 @@ footer a{color:var(--orange);text-decoration:none;font-weight:600;}
     I'm surrendered now<br>
     I give You everything<br>
     Your goodness is running after<br>
-    It's running after me</p>
-    <p class="section-heading">Chorus (Final)</p>
+    It's running after me</p></div>
+    <div class="block"><p class="section-heading">Chorus (Final)</p>
     <p>All my life You have been faithful<br>
     All my life You have been so, so good<br>
     With every breath that I am able<br>
-    I will sing of the goodness of God</p>
+    I will sing of the goodness of God</p></div>
   </div>
   <div class="copyright">
     CCLI Song # 7117726 &bull; Ben Fielding | Brian Johnson | Ed Cash | Jason Ingram | Jenn Johnson<br>
-    &copy; 2018 Bethel Music Publishing &bull; Used by permission. CCLI License # [Your License Here]
+    &copy; 2018 Bethel Music Publishing &bull; Used by permission. CCLI License # 1303913
   </div>
 </section>
 
-<!-- Song 5 -->
-<section id="song5" class="song-section">
+<!-- Song 5 — RESPONSE (orange) -->
+<section id="song5" class="song-section" style="--accent:#ff7a1a;--accent-soft:#ffb066;">
   <div class="song-num">05</div>
   <div class="song-label">Response</div>
   <h2 class="song-title">10,000 Reasons (Bless The Lord)</h2>
   <div class="lyrics">
-    <p class="section-heading">Chorus</p>
+    <div class="block"><p class="section-heading">Chorus</p>
     <p>Bless the Lord, O my soul<br>
     O my soul<br>
     Worship His holy name<br>
     Sing like never before<br>
     O my soul<br>
-    I'll worship Your holy name</p>
-    <p class="section-heading">Verse 1</p>
+    I'll worship Your holy name</p></div>
+    <div class="block"><p class="section-heading">Verse 1</p>
     <p>The sun comes up, it's a new day dawning<br>
     It's time to sing Your song again<br>
     Whatever may pass and whatever lies before me<br>
-    Let me be singing when the evening comes</p>
-    <p class="section-heading">Chorus</p>
+    Let me be singing when the evening comes</p></div>
+    <div class="block"><p class="section-heading">Chorus</p>
     <p>Bless the Lord, O my soul<br>
     O my soul<br>
     Worship His holy name<br>
     Sing like never before<br>
     O my soul<br>
-    I'll worship Your holy name</p>
-    <p class="section-heading">Verse 2</p>
+    I'll worship Your holy name</p></div>
+    <div class="block"><p class="section-heading">Verse 2</p>
     <p>You're rich in love and You're slow to anger<br>
     Your name is great and Your heart is kind<br>
     For all Your goodness I will keep on singing<br>
-    Ten thousand reasons for my heart to find</p>
-    <p class="section-heading">Chorus</p>
+    Ten thousand reasons for my heart to find</p></div>
+    <div class="block"><p class="section-heading">Chorus</p>
     <p>Bless the Lord, O my soul<br>
     O my soul<br>
     Worship His holy name<br>
     Sing like never before<br>
     O my soul<br>
-    I'll worship Your holy name</p>
-    <p class="section-heading">Verse 3</p>
+    I'll worship Your holy name</p></div>
+    <div class="block"><p class="section-heading">Verse 3</p>
     <p>And on that day when my strength is failing<br>
     The end draws near and my time has come<br>
     Still my soul will sing Your praise unending<br>
-    Ten thousand years and then forevermore</p>
-    <p class="section-heading">Chorus (Final)</p>
+    Ten thousand years and then forevermore</p></div>
+    <div class="block"><p class="section-heading">Chorus (Final)</p>
     <p>Bless the Lord, O my soul<br>
     O my soul<br>
     Worship His holy name<br>
     Sing like never before<br>
     O my soul<br>
-    I'll worship Your holy name</p>
+    I'll worship Your holy name</p></div>
   </div>
   <div class="copyright">
     CCLI Song # 6016351 &bull; Jonas Myrin | Matt Redman<br>
-    &copy; 2011 Atlas Mountain Songs (Admin. by SHOUT! Music Publishing) &bull; Used by permission. CCLI License # [Your License Here]
+    &copy; 2011 Atlas Mountain Songs (Admin. by SHOUT! Music Publishing) &bull; Used by permission. CCLI License # 1303913
   </div>
 </section>
+
+<div class="closing" id="closing">
+  <div class="cross">&#10013;</div>
+  <h3>Go in His Goodness</h3>
+  <p>The worship continues in how you live this week.</p>
+</div>
 
 <footer>
   <div class="fname">The Foundery Church</div>
   <div class="fsub">Sundays Are Just the Start</div>
   <p style="margin-top:.7rem;"><a href="https://thefoundery.church" target="_blank" rel="noopener">thefoundery.church</a></p>
-  <p style="margin-top:1.3rem;color:var(--text-dim);">Thanks for worshiping with us today!</p>
-  <p class="footer-event">
-    Sunday, 10&ndash;11 AM &bull; 18th Street Park, Wellsburg<br>
-    Bring your own lawn chair &bull; Communion offered
-  </p>
 </footer>
 
 <button class="fab" id="backToTop" aria-label="Back to top" title="Back to top">&uarr;</button>
+<div class="toast" id="toast">Screen will stay on during worship</div>
 
 <script>
-/* ember particles */
+/* ---------- ember particles ---------- */
 (function(){
   const wrap=document.getElementById('embers');
   if(!wrap || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const N=18;
-  for(let i=0;i<N;i++){
+  for(let i=0;i<18;i++){
     const e=document.createElement('span');
     e.className='ember';
     e.style.left=Math.random()*100+'%';
@@ -550,18 +591,48 @@ const sections=[...document.querySelectorAll('.song-section')];
 const navLinks=[...document.querySelectorAll('.song-btn')];
 const fab=document.getElementById('backToTop');
 const progress=document.getElementById('progress');
+const closing=document.getElementById('closing');
 
-/* reveal sections on scroll */
+/* ---------- font size control (remembered) ---------- */
+(function(){
+  const root=document.documentElement;
+  const down=document.getElementById('fontDown');
+  const up=document.getElementById('fontUp');
+  const STEPS=[1.2,1.32,1.45,1.6,1.78,2.0];   // rem
+  let idx=2;
+  try{
+    const saved=parseInt(localStorage.getItem('cip-font'),10);
+    if(!isNaN(saved)&&saved>=0&&saved<STEPS.length) idx=saved;
+  }catch(e){}
+  function apply(){
+    root.style.setProperty('--lyric',STEPS[idx]+'rem');
+    down.disabled=(idx===0);
+    up.disabled=(idx===STEPS.length-1);
+    try{localStorage.setItem('cip-font',idx);}catch(e){}
+  }
+  down.addEventListener('click',()=>{if(idx>0){idx--;apply();}});
+  up.addEventListener('click',()=>{if(idx<STEPS.length-1){idx++;apply();}});
+  apply();
+})();
+
+/* ---------- reveal on scroll ---------- */
 const reveal=new IntersectionObserver((ents)=>{
   ents.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
 },{rootMargin:'0px 0px -12% 0px',threshold:.08});
 sections.forEach(s=>reveal.observe(s));
+reveal.observe(closing);
 
-/* active song chip */
+/* ---------- current song: nav highlight + mood tint + mark current ---------- */
+const rootStyle=document.documentElement.style;
 const spy=new IntersectionObserver((ents)=>{
   ents.forEach(e=>{
     if(e.isIntersecting){
-      const id=e.target.id;
+      const sec=e.target, id=sec.id;
+      sections.forEach(s=>s.classList.toggle('current',s===sec));
+      /* pull this song's accent up to :root so nav chip + progress match the mood */
+      const cs=getComputedStyle(sec);
+      rootStyle.setProperty('--accent',cs.getPropertyValue('--accent').trim());
+      rootStyle.setProperty('--accent-soft',cs.getPropertyValue('--accent-soft').trim());
       navLinks.forEach(l=>{
         const on=l.getAttribute('href')==='#'+id;
         l.classList.toggle('active',on);
@@ -572,18 +643,64 @@ const spy=new IntersectionObserver((ents)=>{
 },{rootMargin:'-45% 0px -50% 0px',threshold:0});
 sections.forEach(s=>spy.observe(s));
 
-/* progress bar + fab */
+/* ---------- auto-dim: spotlight the verse block nearest screen center ---------- */
+let ticking=false;
+function spotlight(){
+  ticking=false;
+  const current=document.querySelector('.song-section.current');
+  if(!current) return;
+  const blocks=[...current.querySelectorAll('.block')];
+  if(!blocks.length) return;
+  const mid=window.innerHeight*0.45;
+  let best=null,bestDist=Infinity;
+  blocks.forEach(b=>{
+    const r=b.getBoundingClientRect();
+    const c=r.top+r.height/2;
+    const d=Math.abs(c-mid);
+    if(d<bestDist){bestDist=d;best=b;}
+  });
+  blocks.forEach(b=>b.classList.toggle('spotlight',b===best));
+}
+
+/* ---------- progress bar + fab ---------- */
 function onScroll(){
   const h=document.documentElement;
   const max=h.scrollHeight-h.clientHeight;
   const pct=max>0?(h.scrollTop/max)*100:0;
   progress.style.width=pct+'%';
   fab.classList.toggle('show',h.scrollTop>600);
+  if(!ticking){ticking=true;requestAnimationFrame(spotlight);}
 }
 window.addEventListener('scroll',onScroll,{passive:true});
+window.addEventListener('resize',()=>{if(!ticking){ticking=true;requestAnimationFrame(spotlight);}},{passive:true});
 onScroll();
 
 fab.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+/* ---------- keep screen awake (Wake Lock) ---------- */
+(function(){
+  let lock=null;
+  const toast=document.getElementById('toast');
+  let toastShown=false;
+  async function request(){
+    if(!('wakeLock' in navigator)) return;
+    try{
+      lock=await navigator.wakeLock.request('screen');
+      if(!toastShown){
+        toast.classList.add('show');
+        toastShown=true;
+        setTimeout(()=>toast.classList.remove('show'),3000);
+      }
+      lock.addEventListener('release',()=>{lock=null;});
+    }catch(e){/* denied or unsupported — silently fine */}
+  }
+  /* needs a user gesture on most browsers, so arm it on first tap/scroll */
+  function arm(){request();window.removeEventListener('pointerdown',arm);window.removeEventListener('touchstart',arm);}
+  window.addEventListener('pointerdown',arm,{once:true});
+  window.addEventListener('touchstart',arm,{once:true,passive:true});
+  /* re-acquire if the tab is hidden then shown again */
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&!lock)request();});
+})();
 </script>
 </body>
 </html>
