@@ -223,6 +223,7 @@ header .mark b{color:var(--orange);}
 
 /* ---------- sermon / message section ---------- */
 .sermon-chip .n{font-size:.95rem;}
+.connect-chip .n{font-size:.95rem;}
 .sermon{
   margin:2.5rem 1rem 1.5rem;
   scroll-margin-top:calc(var(--header-h) + var(--nav-h) + env(safe-area-inset-top) + 10px);
@@ -343,6 +344,116 @@ header .mark b{color:var(--orange);}
   content:"\2022";position:absolute;left:0;top:.5rem;color:#b48cff;font-size:1.2rem;
 }
 
+/* full scripture embed */
+.scripture-note{color:var(--text-dim);font-size:1rem;margin-bottom:1rem;}
+.bible-frame{
+  background:#fff;border-radius:14px;overflow:hidden;
+  border:1px solid var(--panel-edge);
+  height:60vh;min-height:420px;
+}
+.bible-frame iframe{width:100%;height:100%;border:0;display:block;}
+.bible-link{
+  display:inline-block;margin-top:1rem;
+  font-family:'Oswald',sans-serif;font-weight:600;letter-spacing:.5px;
+  text-transform:uppercase;font-size:.85rem;
+  color:#9fd0f5;text-decoration:none;
+}
+.bible-link:active{opacity:.7;}
+
+/* ---------- connect / response section ---------- */
+.connect{
+  margin:2.5rem 1rem 1rem;padding:2rem 1.4rem;
+  background:linear-gradient(160deg,#1a2236 0%,#0d1526 100%);
+  border:1px solid var(--panel-edge);border-radius:20px;text-align:center;
+  scroll-margin-top:calc(var(--header-h) + var(--nav-h) + env(safe-area-inset-top) + 10px);
+}
+.connect h2{
+  font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;
+  letter-spacing:1px;font-size:clamp(1.6rem,7vw,2.2rem);color:var(--text);
+  line-height:1.05;margin-bottom:.5rem;
+}
+.connect .sub{color:var(--text-dim);font-size:1.05rem;margin-bottom:1.5rem;}
+.connect-grid{display:grid;gap:.7rem;}
+.cbtn{
+  display:flex;align-items:center;gap:.85rem;
+  padding:1.1rem 1.25rem;border-radius:14px;cursor:pointer;
+  background:var(--panel);border:1px solid var(--panel-edge);
+  color:var(--text);text-align:left;width:100%;
+  font-family:'Oswald',sans-serif;font-weight:600;letter-spacing:.5px;
+  text-transform:uppercase;font-size:1.02rem;
+  transition:all .18s;
+}
+.cbtn .ic{font-size:1.4rem;flex:0 0 auto;line-height:1;}
+.cbtn .arr{margin-left:auto;color:var(--orange);font-size:1.2rem;}
+.cbtn:active{transform:scale(.98);}
+.cbtn:nth-child(1){border-left:4px solid #ff7a1a;}
+.cbtn:nth-child(2){border-left:4px solid #56a8e0;}
+.cbtn:nth-child(3){border-left:4px solid #f0a92c;}
+.cbtn:nth-child(4){border-left:4px solid #7c5cff;}
+@media(hover:hover){.cbtn:hover{border-color:var(--orange);}}
+
+/* visit website button — full orange, sits apart */
+.visit-btn{
+  margin-top:1.1rem;justify-content:center;text-decoration:none;
+  background:linear-gradient(135deg,var(--orange),#ff9a47);
+  color:#1a1206;border:none;border-left:none!important;
+}
+.visit-btn .arr{color:#1a1206;margin-left:.3rem;}
+.visit-btn .ic{filter:none;}
+
+/* modal */
+.modal-bg{
+  position:fixed;inset:0;z-index:300;
+  background:rgba(4,8,16,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+  padding:0;
+}
+.modal-bg.show{opacity:1;pointer-events:auto;}
+.modal{
+  background:linear-gradient(160deg,var(--panel) 0%,var(--bg2) 100%);
+  border:1px solid var(--panel-edge);
+  border-radius:22px 22px 0 0;
+  width:100%;max-width:560px;
+  padding:1.5rem 1.4rem calc(1.5rem + env(safe-area-inset-bottom));
+  transform:translateY(40px);transition:transform .3s;
+  max-height:90vh;overflow-y:auto;
+}
+.modal-bg.show .modal{transform:none;}
+.modal h3{
+  font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;
+  letter-spacing:1px;font-size:1.5rem;color:var(--text);
+  display:flex;align-items:center;gap:.6rem;margin-bottom:.35rem;
+}
+.modal .mdesc{color:var(--text-dim);font-size:1rem;margin-bottom:1.2rem;}
+.modal label{
+  display:block;font-family:'Oswald',sans-serif;font-weight:600;
+  text-transform:uppercase;letter-spacing:1px;font-size:.78rem;
+  color:var(--orange-soft);margin:0 0 .4rem;
+}
+.modal input,.modal textarea{
+  width:100%;background:#0c1525;border:1px solid var(--panel-edge);
+  border-radius:12px;padding:.85rem 1rem;color:var(--text);
+  font-family:inherit;font-size:1.05rem;margin-bottom:1rem;
+}
+.modal input:focus,.modal textarea:focus{outline:none;border-color:var(--orange);}
+.modal textarea{min-height:110px;resize:vertical;}
+.modal-actions{display:flex;gap:.7rem;margin-top:.3rem;}
+.modal-actions button{
+  flex:1;padding:1rem;border-radius:12px;cursor:pointer;
+  font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;
+  letter-spacing:1px;font-size:1rem;border:none;transition:all .18s;
+}
+.btn-send{background:linear-gradient(135deg,var(--orange),#ff9a47);color:#1a1206;}
+.btn-send:active{transform:scale(.97);}
+.btn-cancel{background:var(--panel);color:var(--text-dim);border:1px solid var(--panel-edge);}
+.modal-success{
+  text-align:center;padding:1.5rem .5rem .5rem;
+}
+.modal-success .big{font-size:2.5rem;margin-bottom:.6rem;}
+.modal-success h3{justify-content:center;color:var(--orange);}
+.modal-success p{color:var(--text-dim);font-size:1.05rem;margin-top:.4rem;}
+
 /* closing moment */
 .closing{
   text-align:center;padding:4rem 1.5rem 3rem;
@@ -441,6 +552,7 @@ footer a{color:var(--orange);text-decoration:none;font-weight:600;}
     <a href="#song4" class="song-btn"><span class="n">04</span>Goodness of God</a>
     <a href="#song5" class="song-btn"><span class="n">05</span>10,000 Reasons</a>
     <a href="#sermon" class="song-btn sermon-chip"><span class="n">&#10013;</span>The Message</a>
+    <a href="#connect" class="song-btn connect-chip"><span class="n">&#128591;</span>Connect</a>
   </div>
 </nav>
 
@@ -754,6 +866,23 @@ footer a{color:var(--orange);text-decoration:none;font-weight:600;}
 
   <div class="sermon-group">
     <button aria-expanded="false">
+      <span class="gtitle">Full Scripture &mdash; Luke 15 (NIV)</span>
+      <span class="chev">&#9662;</span>
+    </button>
+    <div class="gbody"><div class="gbody-inner">
+      <p class="scripture-note">The full chapter in the NIV, with the words of Jesus in red.</p>
+      <div class="bible-frame">
+        <iframe
+          title="Luke 15 (NIV) — Bible Gateway"
+          src="https://www.biblegateway.com/passage/?search=Luke%2015&version=NIV&interface=print"
+          loading="lazy"></iframe>
+      </div>
+      <a class="bible-link" href="https://www.biblegateway.com/passage/?search=Luke+15&version=NIV" target="_blank" rel="noopener">Open Luke 15 in a new tab &#8599;</a>
+    </div></div>
+  </div>
+
+  <div class="sermon-group">
+    <button aria-expanded="false">
       <span class="gtitle">Scripture References</span>
       <span class="chev">&#9662;</span>
     </button>
@@ -815,6 +944,56 @@ footer a{color:var(--orange);text-decoration:none;font-weight:600;}
     </div></div>
   </div>
 </section>
+
+<section id="connect" class="connect">
+  <h2>How Can We Pray With You?</h2>
+  <p class="sub">Tap below &mdash; it goes straight to Pastor Bobby.</p>
+  <div class="connect-grid">
+    <button class="cbtn" data-title="I Need Prayer" data-icon="&#128591;" data-desc="Share what you'd like us to pray for. We'd be honored to pray with you.">
+      <span class="ic">&#128591;</span><span>I Need Prayer</span><span class="arr">&#8250;</span>
+    </button>
+    <button class="cbtn" data-title="Looking for a Church" data-icon="&#127968;" data-desc="We'd love to help you find a church home. Tell us a little about yourself.">
+      <span class="ic">&#127968;</span><span>Looking for a Church</span><span class="arr">&#8250;</span>
+    </button>
+    <button class="cbtn" data-title="I Want to Follow Jesus" data-icon="&#10013;" data-desc="This is the best decision you'll ever make. Let us walk with you in your next step.">
+      <span class="ic">&#10013;</span><span>I Made a Decision to Follow Jesus</span><span class="arr">&#8250;</span>
+    </button>
+    <button class="cbtn" data-title="Message for Pastor Bobby" data-icon="&#9993;" data-desc="Have a question or just want to say hello? Send Pastor Bobby a note.">
+      <span class="ic">&#9993;</span><span>Leave a Message for Pastor Bobby</span><span class="arr">&#8250;</span>
+    </button>
+  </div>
+  <a class="cbtn visit-btn" href="https://thefoundery.church" target="_blank" rel="noopener">
+    <span class="ic">&#127760;</span><span>Visit thefoundery.church</span><span class="arr">&#8599;</span>
+  </a>
+</section>
+
+<!-- connection modal -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div id="modalForm">
+      <h3 id="modalTitle"><span id="mIcon">&#128591;</span> <span id="mTitle">I Need Prayer</span></h3>
+      <p class="mdesc" id="mDesc"></p>
+      <label for="cName">Your Name</label>
+      <input type="text" id="cName" placeholder="First and last name" autocomplete="name">
+      <label for="cContact">Email or Phone</label>
+      <input type="text" id="cContact" placeholder="So we can follow up with you" autocomplete="email">
+      <label for="cMsg">Message</label>
+      <textarea id="cMsg" placeholder="Share whatever you'd like..."></textarea>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="mCancel">Cancel</button>
+        <button class="btn-send" id="mSend">Send</button>
+      </div>
+    </div>
+    <div class="modal-success" id="modalSuccess" style="display:none;">
+      <div class="big">&#9993;</div>
+      <h3>Almost There</h3>
+      <p>Your email is ready in your mail app &mdash; just press send and it goes straight to Pastor Bobby.</p>
+      <div class="modal-actions" style="margin-top:1.5rem;">
+        <button class="btn-send" id="mDone">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="closing" id="closing">
   <div class="cross">&#10013;</div>
@@ -953,6 +1132,59 @@ document.querySelectorAll('.point > button, .sermon-group > button').forEach(btn
     btn.setAttribute('aria-expanded',open?'true':'false');
   });
 });
+
+/* ---------- connection modal -> opens email to Pastor Bobby ---------- */
+(function(){
+  const PASTOR_EMAIL='pastorbobbywestfall@gmail.com';
+
+  const bg=document.getElementById('modalBg');
+  const formView=document.getElementById('modalForm');
+  const successView=document.getElementById('modalSuccess');
+  const mIcon=document.getElementById('mIcon');
+  const mTitle=document.getElementById('mTitle');
+  const mDesc=document.getElementById('mDesc');
+  const nameI=document.getElementById('cName');
+  const contactI=document.getElementById('cContact');
+  const msgI=document.getElementById('cMsg');
+  const sendB=document.getElementById('mSend');
+  let currentTopic='';
+
+  function open(topic,icon,desc){
+    currentTopic=topic;
+    mIcon.innerHTML=icon;
+    mTitle.textContent=topic;
+    mDesc.textContent=desc;
+    formView.style.display='';
+    successView.style.display='none';
+    nameI.value='';contactI.value='';msgI.value='';
+    sendB.disabled=false;sendB.textContent='Open Email';
+    bg.classList.add('show');
+    document.body.style.overflow='hidden';
+  }
+  function close(){
+    bg.classList.remove('show');
+    document.body.style.overflow='';
+  }
+
+  document.querySelectorAll('.cbtn').forEach(b=>{
+    b.addEventListener('click',()=>open(b.dataset.title,b.dataset.icon,b.dataset.desc));
+  });
+  document.getElementById('mCancel').addEventListener('click',close);
+  document.getElementById('mDone').addEventListener('click',close);
+  bg.addEventListener('click',e=>{if(e.target===bg)close();});
+
+  sendB.addEventListener('click',()=>{
+    const body=encodeURIComponent(
+      (nameI.value.trim()?'Name: '+nameI.value.trim()+'\n':'')+
+      (contactI.value.trim()?'Best way to reach me: '+contactI.value.trim()+'\n':'')+
+      '\n'+
+      (msgI.value.trim()||'')
+    );
+    const subject=encodeURIComponent('Church in the Park — '+currentTopic);
+    window.location.href='mailto:'+PASTOR_EMAIL+'?subject='+subject+'&body='+body;
+    formView.style.display='none';successView.style.display='';
+  });
+})();
 (function(){
   let lock=null;
   const toast=document.getElementById('toast');
