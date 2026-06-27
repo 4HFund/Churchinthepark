@@ -393,7 +393,7 @@ header .mark b{color:var(--orange);}
   display:flex;align-items:center;gap:.85rem;
   padding:1.1rem 1.25rem;border-radius:14px;cursor:pointer;
   background:var(--panel);border:1px solid var(--panel-edge);
-  color:var(--text);text-align:left;width:100%;
+  color:var(--text);text-align:left;width:100%;text-decoration:none;
   font-family:'Oswald',sans-serif;font-weight:600;letter-spacing:.5px;
   text-transform:uppercase;font-size:1.02rem;
   transition:all .18s;
@@ -978,15 +978,15 @@ footer a{color:var(--orange);text-decoration:none;font-weight:600;}
   <h2>How Can We Pray With You?</h2>
   <p class="sub">Tap below &mdash; it goes straight to Pastor Bobby.</p>
   <div class="connect-grid">
-    <button class="cbtn" data-title="I Need Prayer" data-icon="&#128591;" data-desc="Share what you'd like us to pray for. We'd be honored to pray with you.">
-      <span class="ic">&#128591;</span><span>I Need Prayer</span><span class="arr">&#8250;</span>
-    </button>
-    <button class="cbtn" data-title="Looking for a Church" data-icon="&#127968;" data-desc="We'd love to help you find a church home. Tell us a little about yourself.">
-      <span class="ic">&#127968;</span><span>Looking for a Church</span><span class="arr">&#8250;</span>
-    </button>
-    <button class="cbtn" data-title="I Want to Follow Jesus" data-icon="&#10013;" data-desc="This is the best decision you'll ever make. Let us walk with you in your next step.">
-      <span class="ic">&#10013;</span><span>I Made a Decision to Follow Jesus</span><span class="arr">&#8250;</span>
-    </button>
+    <a class="cbtn" href="https://thefounderychurch.churchcenter.com/people/forms/1045720" target="_blank" rel="noopener">
+      <span class="ic">&#128591;</span><span>I Need Prayer</span><span class="arr">&#8599;</span>
+    </a>
+    <a class="cbtn" href="https://thefounderychurch.churchcenter.com/people/forms/1012707" target="_blank" rel="noopener">
+      <span class="ic">&#127968;</span><span>Looking for a Church</span><span class="arr">&#8599;</span>
+    </a>
+    <a class="cbtn" href="https://thefoundery.church/events-%2F-calendar" target="_blank" rel="noopener">
+      <span class="ic">&#128197;</span><span>What's Happening at The Foundery</span><span class="arr">&#8599;</span>
+    </a>
     <button class="cbtn" data-title="Message for Pastor Bobby" data-icon="&#9993;" data-desc="Have a question or just want to say hello? Send Pastor Bobby a note.">
       <span class="ic">&#9993;</span><span>Leave a Message for Pastor Bobby</span><span class="arr">&#8250;</span>
     </button>
@@ -1195,7 +1195,7 @@ document.querySelectorAll('.point > button, .sermon-group > button').forEach(btn
     document.body.style.overflow='';
   }
 
-  document.querySelectorAll('.cbtn').forEach(b=>{
+  document.querySelectorAll('button.cbtn[data-title]').forEach(b=>{
     b.addEventListener('click',()=>open(b.dataset.title,b.dataset.icon,b.dataset.desc));
   });
   document.getElementById('mCancel').addEventListener('click',close);
