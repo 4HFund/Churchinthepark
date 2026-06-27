@@ -344,14 +344,29 @@ header .mark b{color:var(--orange);}
   content:"\2022";position:absolute;left:0;top:.5rem;color:#b48cff;font-size:1.2rem;
 }
 
-/* full scripture embed */
-.scripture-note{color:var(--text-dim);font-size:1rem;margin-bottom:1rem;}
-.bible-frame{
-  background:#fff;border-radius:14px;overflow:hidden;
+/* full scripture — hand-formatted, guaranteed red letters */
+.scripture-note{color:var(--text-dim);font-size:1rem;margin-bottom:1.2rem;}
+.scripture-text{
+  background:#fbf9f4;color:#1a1a1a;
+  border-radius:14px;padding:1.4rem 1.3rem;
   border:1px solid var(--panel-edge);
-  height:60vh;min-height:420px;
+  font-size:1.12rem;line-height:1.7;
+  max-height:65vh;overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
 }
-.bible-frame iframe{width:100%;height:100%;border:0;display:block;}
+.scripture-text h4{
+  font-family:'Oswald',sans-serif;font-weight:700;
+  text-transform:uppercase;letter-spacing:1px;
+  font-size:1.15rem;color:#0a1424;
+  margin:1.4rem 0 .6rem;
+}
+.scripture-text h4:first-child{margin-top:0;}
+.scripture-text p{margin-bottom:1rem;}
+.scripture-text .v{
+  font-weight:700;font-size:.72rem;color:#888;
+  vertical-align:super;margin-right:.15rem;
+}
+.scripture-text .jesus{color:#c0271c;}
 .bible-link{
   display:inline-block;margin-top:1rem;
   font-family:'Oswald',sans-serif;font-weight:600;letter-spacing:.5px;
@@ -870,14 +885,28 @@ footer a{color:var(--orange);text-decoration:none;font-weight:600;}
       <span class="chev">&#9662;</span>
     </button>
     <div class="gbody"><div class="gbody-inner">
-      <p class="scripture-note">The full chapter in the NIV, with the words of Jesus in red.</p>
-      <div class="bible-frame">
-        <iframe
-          title="Luke 15 (NIV) — Bible Gateway"
-          src="https://www.biblegateway.com/passage/?search=Luke%2015&version=NIV"
-          loading="lazy"></iframe>
+      <p class="scripture-note">Luke 15 &mdash; New International Version. The words of Jesus are shown in <span style="color:#c0271c;font-weight:600;">red</span>.</p>
+      <div class="scripture-text">
+        <h4>The Parable of the Lost Sheep</h4>
+        <p><span class="v">1</span>Now the tax collectors and sinners were all gathering around to hear Jesus. <span class="v">2</span>But the Pharisees and the teachers of the law muttered, "This man welcomes sinners and eats with them."</p>
+        <p><span class="v">3</span>Then Jesus told them this parable: <span class="v">4</span><span class="jesus">"Suppose one of you has a hundred sheep and loses one of them. Doesn't he leave the ninety-nine in the open country and go after the lost sheep until he finds it? <span class="v">5</span>And when he finds it, he joyfully puts it on his shoulders <span class="v">6</span>and goes home. Then he calls his friends and neighbors together and says, 'Rejoice with me; I have found my lost sheep.' <span class="v">7</span>I tell you that in the same way there will be more rejoicing in heaven over one sinner who repents than over ninety-nine righteous persons who do not need to repent.</span></p>
+
+        <h4>The Parable of the Lost Coin</h4>
+        <p><span class="v">8</span><span class="jesus">"Or suppose a woman has ten silver coins and loses one. Doesn't she light a lamp, sweep the house and search carefully until she finds it? <span class="v">9</span>And when she finds it, she calls her friends and neighbors together and says, 'Rejoice with me; I have found my lost coin.' <span class="v">10</span>In the same way, I tell you, there is rejoicing in the presence of the angels of God over one sinner who repents."</span></p>
+
+        <h4>The Parable of the Lost Son</h4>
+        <p><span class="v">11</span>Jesus continued: <span class="jesus">"There was a man who had two sons. <span class="v">12</span>The younger one said to his father, 'Father, give me my share of the estate.' So he divided his property between them.</span></p>
+        <p><span class="jesus"><span class="v">13</span>"Not long after that, the younger son got together all he had, set off for a distant country and there squandered his wealth in wild living. <span class="v">14</span>After he had spent everything, there was a severe famine in that whole country, and he began to be in need. <span class="v">15</span>So he went and hired himself out to a citizen of that country, who sent him to his fields to feed pigs. <span class="v">16</span>He longed to fill his stomach with the pods that the pigs were eating, but no one gave him anything.</span></p>
+        <p><span class="jesus"><span class="v">17</span>"When he came to his senses, he said, 'How many of my father's hired servants have food to spare, and here I am starving to death! <span class="v">18</span>I will set out and go back to my father and say to him: Father, I have sinned against heaven and against you. <span class="v">19</span>I am no longer worthy to be called your son; make me like one of your hired servants.' <span class="v">20</span>So he got up and went to his father.</span></p>
+        <p><span class="jesus">"But while he was still a long way off, his father saw him and was filled with compassion for him; he ran to his son, threw his arms around him and kissed him.</span></p>
+        <p><span class="jesus"><span class="v">21</span>"The son said to him, 'Father, I have sinned against heaven and against you. I am no longer worthy to be called your son.'</span></p>
+        <p><span class="jesus"><span class="v">22</span>"But the father said to his servants, 'Quick! Bring the best robe and put it on him. Put a ring on his finger and sandals on his feet. <span class="v">23</span>Bring the fattened calf and kill it. Let's have a feast and celebrate. <span class="v">24</span>For this son of mine was dead and is alive again; he was lost and is found.' So they began to celebrate.</span></p>
+        <p><span class="jesus"><span class="v">25</span>"Meanwhile, the older son was in the field. When he came near the house, he heard music and dancing. <span class="v">26</span>So he called one of the servants and asked him what was going on. <span class="v">27</span>'Your brother has come,' he replied, 'and your father has killed the fattened calf because he has him back safe and sound.'</span></p>
+        <p><span class="jesus"><span class="v">28</span>"The older brother became angry and refused to go in. So his father went out and pleaded with him. <span class="v">29</span>But he answered his father, 'Look! All these years I've been slaving for you and never disobeyed your orders. Yet you never gave me even a young goat so I could celebrate with my friends. <span class="v">30</span>But when this son of yours who has squandered your property with prostitutes comes home, you kill the fattened calf for him!'</span></p>
+        <p><span class="jesus"><span class="v">31</span>"'My son,' the father said, 'you are always with me, and everything I have is yours. <span class="v">32</span>But we had to celebrate and be glad, because this brother of yours was dead and is alive again; he was lost and is found.'"</span></p>
       </div>
-      <a class="bible-link" href="https://www.biblegateway.com/passage/?search=Luke+15&version=NIV" target="_blank" rel="noopener">Open Luke 15 in a new tab &#8599;</a>
+      <p style="font-size:.78rem;color:var(--text-dim);margin-top:.9rem;line-height:1.6;">Scripture taken from THE HOLY BIBLE, NEW INTERNATIONAL VERSION&reg;. Copyright &copy; 1973, 1978, 1984, 2011 by Biblica, Inc. Used by permission.</p>
+      <a class="bible-link" href="https://www.biblegateway.com/passage/?search=Luke+15&version=NIV" target="_blank" rel="noopener">Open Luke 15 on Bible Gateway &#8599;</a>
     </div></div>
   </div>
 
